@@ -1,4 +1,3 @@
-```python
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -156,15 +155,11 @@ st.sidebar.write(
     "Enter the book and circulation details:"
 )
 
-# Book Category
-
 category = st.sidebar.selectbox(
     "📖 Book Category",
     categories,
     index=7
 )
-
-# Month
 
 month_name = st.sidebar.selectbox(
     "📅 Month",
@@ -189,8 +184,6 @@ month = int(
     month_name.split("(")[1].replace(")", "")
 )
 
-# Semester
-
 semester = st.sidebar.number_input(
     "🎓 Academic Semester",
     min_value=1,
@@ -198,8 +191,6 @@ semester = st.sidebar.number_input(
     value=4,
     step=1
 )
-
-# Students
 
 students = st.sidebar.number_input(
     "👨‍🎓 Number of Enrolled Students",
@@ -209,8 +200,6 @@ students = st.sidebar.number_input(
     step=10
 )
 
-# Previous Borrowing
-
 borrowing = st.sidebar.number_input(
     "📚 Previous Borrowing Count",
     min_value=1,
@@ -219,8 +208,6 @@ borrowing = st.sidebar.number_input(
     step=1
 )
 
-# Previous Demand
-
 previous_demand = st.sidebar.number_input(
     "📊 Previous Demand Count",
     min_value=1,
@@ -228,10 +215,6 @@ previous_demand = st.sidebar.number_input(
     value=80,
     step=1
 )
-
-# ---------------------------------------------------------
-# PREDICT BUTTON
-# ---------------------------------------------------------
 
 predict_button = st.sidebar.button(
     "🔮 Predict Demand",
@@ -259,12 +242,7 @@ if predict_button:
     )
 
     prediction = model.predict(input_data)[0]
-
     prediction = int(round(prediction))
-
-    # -----------------------------------------------------
-    # DEMAND LEVEL
-    # -----------------------------------------------------
 
     if prediction >= 150:
         demand_level = "High"
@@ -284,28 +262,24 @@ if predict_button:
     col1, col2, col3, col4 = st.columns(4)
 
     with col1:
-
         st.metric(
             "Predicted Demand",
             f"{prediction} books"
         )
 
     with col2:
-
         st.metric(
             "Demand Level",
             demand_level
         )
 
     with col3:
-
         st.metric(
             "Model MAE",
             f"{mae:.2f}"
         )
 
     with col4:
-
         st.metric(
             "Model R² Score",
             f"{r2:.4f}"
@@ -314,7 +288,7 @@ if predict_button:
     st.divider()
 
     # -----------------------------------------------------
-    # HIGH DEMAND
+    # RECOMMENDATION
     # -----------------------------------------------------
 
     if demand_level == "High":
@@ -336,10 +310,6 @@ if predict_button:
             "and maintain sufficient reserve stock."
         )
 
-    # -----------------------------------------------------
-    # MEDIUM DEMAND
-    # -----------------------------------------------------
-
     elif demand_level == "Medium":
 
         st.warning(
@@ -357,10 +327,6 @@ if predict_button:
             "Monitor borrowing activity and maintain "
             "adequate stock based on usage."
         )
-
-    # -----------------------------------------------------
-    # LOW DEMAND
-    # -----------------------------------------------------
 
     else:
 
@@ -402,9 +368,7 @@ tab1, tab2, tab3 = st.tabs(
 
 with tab1:
 
-    st.subheader(
-        "Historical Monthly Demand"
-    )
+    st.subheader("Historical Monthly Demand")
 
     monthly_demand = (
         df.groupby("Month")["Demand"]
@@ -431,9 +395,7 @@ with tab1:
         for i in monthly_demand.index
     ]
 
-    st.line_chart(
-        monthly_demand
-    )
+    st.line_chart(monthly_demand)
 
     st.caption(
         "Monthly Average Book Demand Trend"
@@ -445,9 +407,7 @@ with tab1:
 
 with tab2:
 
-    st.subheader(
-        "Category-wise Demand Analysis"
-    )
+    st.subheader("Category-wise Demand Analysis")
 
     category_demand = (
         df.groupby("Category")["Demand"]
@@ -455,9 +415,7 @@ with tab2:
         .sort_values()
     )
 
-    st.bar_chart(
-        category_demand
-    )
+    st.bar_chart(category_demand)
 
     st.caption(
         "Average Demand by Book Category"
@@ -469,9 +427,7 @@ with tab2:
 
 with tab3:
 
-    st.subheader(
-        "🤖 Machine Learning Model"
-    )
+    st.subheader("🤖 Machine Learning Model")
 
     st.write(
         "**Algorithm:** Random Forest Regressor"
@@ -507,4 +463,3 @@ st.caption(
     "📚 Library Book Demand Prediction System | "
     "Random Forest Machine Learning"
 )
-```
